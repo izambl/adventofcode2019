@@ -29,7 +29,7 @@ asteroidMap.push('#.####.#..#.#.##.######.#..'.split(''));
 asteroidMap.push('.#.#####.##...#...#.##...#.'.split(''));
 
 function angle(point1, point2) {
-  const angle = Math.atan2((point2.y - point1.y), (point2.x - point1.x));
+  const angle = Math.atan2((point1.y - point2.y), (point2.x - point1.x));
 
   return angle;
 }
@@ -49,12 +49,14 @@ for (let y = 0; y < asteroidMap.length; y++) {
         point: { x, y },
         maps: [],
         views: {},
+        totalViews: 0,
       };
     }
   }
 }
 
 const views = [];
+const angles = [];
 for (const [key, asteroid] of Object.entries(asteroids)) {
   fillAdjacents(asteroid, views);
 }
@@ -70,11 +72,42 @@ function fillAdjacents(asteroid, views) {
         angle: a,
         distance: d,
       });
-      asteroid.views[a] = true;
+      asteroid.views[a] = [];
     }
   }
 
-  views.push(Object.keys(asteroid.views).length);
+  asteroid.totalViews = Object.keys(asteroid.views).length;
+  views.push(asteroid.totalViews);
 }
 
-console.log(Math.max(...views));
+// Phase 1
+const maxViews = Math.max(...views);
+console.log(maxViews);
+
+
+// Phase 2
+const laserAsteroid= asteroids[Object.keys(asteroids).find((key) => asteroids[key].totalViews === maxViews)];
+
+laserAsteroid.maps.forEach((externalAsteroid) => {
+  laserAsteroid.views[externalAsteroid.angle].push(externalAsteroid);
+});
+
+for (const [key, laserAngle] of Object.entries(laserAsteroid.views)) {
+  laserAngle.sort((a, b) => a.distance - b.distance);
+}
+
+const anglesInOrder = Object.keys(laserAsteroid.views).map(Number).sort((a, b) => b - a);
+const startAngleIndex = anglesInOrder.indexOf(Math.PI / 2);
+
+const leftAngles = anglesInOrder.slice(0, startAngleIndex);
+const rightAngles = anglesInOrder.slice(startAngleIndex);
+
+const startShooting = [...rightAngles, ...leftAngles];
+
+console.log(startShooting[199]);
+console.log(laserAsteroid.views[startShooting[199]]);
+
+// @Todo clean up this code
+
+// console.log(angle({ x: 15, y: 15 }, { x: 15, y: 0 }));
+// console.log(angle({ x: 15, y: 15 }, { x: 16, y: 0 }));

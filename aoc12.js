@@ -67,33 +67,31 @@ console.log('Phase 01, total system energy:', totalSystemEnergy);
 
 // Phase 2 - Brute force
 function originalPosition(moons, currentStep) {
-  let allEqual = true;
+  let xEqual = true;
+  let yEqual = true;
+  let zEqual = true;
 
   for (let i = 0; i < moons.length; i++) {
     const moon = moons[i];
-    let isEqual = true;
 
-    isEqual = isEqual && (moon.pos.x == moon.ori.x);
-    isEqual = isEqual && (moon.pos.y == moon.ori.y);
-    isEqual = isEqual && (moon.pos.z == moon.ori.z);
-
-    isEqual = isEqual && (moon.vel.x == 0);
-    isEqual = isEqual && (moon.vel.y == 0);
-    isEqual = isEqual && (moon.vel.z == 0);
-
-    if (isEqual) {
-      console.log(`Moon ${moon.name} completed a round in ${currentStep} steps`)
-    }
-    allEqual = allEqual && isEqual;
+    xEqual = xEqual && ((moon.pos.x == moon.ori.x) && (moon.vel.x == 0));
+    yEqual = yEqual && ((moon.pos.y == moon.ori.y) && (moon.vel.y == 0));
+    zEqual = zEqual && ((moon.pos.z == moon.ori.z) && (moon.vel.z == 0));
   }
 
-  return allEqual;
+  xEqual && xPhases.push(currentStep)
+  yEqual && yPhases.push(currentStep)
+  zEqual && zPhases.push(currentStep)
 }
 
 console.time('day12 phase 2');
 let currentStep = 0;
-const moonsToTest = demoMoons;
-while(true) {
+const moonsToTest = moonsPhase2;
+const xPhases = [];
+const yPhases = [];
+const zPhases = [];
+let coutdown = 1000000000;
+while(coutdown--) {
   applyGravity(moonsToTest);
   applyVelocity(moonsToTest[0]);
   applyVelocity(moonsToTest[1]);
@@ -102,9 +100,16 @@ while(true) {
   
   currentStep++;
   if (originalPosition(moonsToTest, currentStep)) {
-    break;
+    //break;
   }
 }
 console.timeEnd('day12 phase 2');
+
+console.log(xPhases);
+console.log(yPhases);
+console.log(zPhases);
+
+// Got differences from phases and then got LCM
+// Used LCM from https://www.calculatorsoup.com/calculators/math/lcm.php
 
 console.log('Phase 02, steps to original position:', currentStep);

@@ -133,6 +133,7 @@ function run(inputPhase, inputSignal) {
   return output;
 }
 
+// Code from: https://stackoverflow.com/a/20871714
 function permutator(inputArr) {
   var results = [];
 

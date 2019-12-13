@@ -9,7 +9,7 @@ const game = [];
 function draw(x, y, tile) {
   game[x] = game[x] || [];
 
-  game[x][y] = tile === 2 ? 1 : 0;
+  game[x][y] = tile;
 }
 
 const arcadeProgam = {
@@ -20,6 +20,7 @@ const arcadeProgam = {
 };
 
 
+let countBlocks = 0;
 while (true) {
   const x = run(arcadeProgam);
 
@@ -31,14 +32,7 @@ while (true) {
   const tile = run(arcadeProgam);
 
   draw(x.output, y.output, tile.output);
+  countBlocks += tile.output === 2;
 }
 
-let c = 0;
-for (let i = 0; i < game.length; i += 1) {
-  for (let j = 0; j < game.length; j += 1) {
-    if (game[i][j] === 1) {
-      c += 1;
-    }
-  }
-}
-console.log('Phase 01:', c);
+console.log('Phase 01:', countBlocks);

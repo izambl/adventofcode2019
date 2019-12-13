@@ -1,0 +1,19 @@
+{
+  "name": "adventofcode2019",
+  "version": "1.0.0",
+  "description": "Advent of code 2019",
+  "main": "aoc01.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/izambl/adventofcode2019.git"
+  },
+  "author": "Ismael Barragán <ismael@mabkil.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/izambl/adventofcode2019/issues"
+  },
+  "homepage": "https://github.com/izambl/adventofcode2019#readme"
+}

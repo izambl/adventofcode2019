@@ -90,7 +90,7 @@ const moonsToTest = moonsPhase2;
 const xPhases = [];
 const yPhases = [];
 const zPhases = [];
-let coutdown = 1000000000;
+let coutdown = 100000000;
 while(coutdown--) {
   applyGravity(moonsToTest);
   applyVelocity(moonsToTest[0]);
@@ -99,17 +99,16 @@ while(coutdown--) {
   applyVelocity(moonsToTest[3]);
   
   currentStep++;
-  if (originalPosition(moonsToTest, currentStep)) {
-    //break;
-  }
+  originalPosition(moonsToTest, currentStep)
 }
 console.timeEnd('day12 phase 2');
 
-console.log(xPhases);
-console.log(yPhases);
-console.log(zPhases);
+const xInterval = xPhases[1] - xPhases[0];
+const yInterval = yPhases[1] - yPhases[0];
+const zInterval = zPhases[1] - zPhases[0];
 
 // Got differences from phases and then got LCM
 // Used LCM from https://www.calculatorsoup.com/calculators/math/lcm.php
+console.log('Phase 02, steps to original position: LCM of:', xInterval, yInterval, zInterval);
 
-console.log('Phase 02, steps to original position:', currentStep);
+// @TODO Implement LCM algorithm
